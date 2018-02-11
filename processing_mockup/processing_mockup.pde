@@ -151,19 +151,13 @@ void keyPressed() {
     } else if (key == 'a') {
       mode = "ALIGN";
     } else if (key == 'c') {
-      mode = "COMMAND";
+      int last_id = ((Shape)shapes.get(shapes.size()-1)).id;
+      shapes.add(new Shape(last_id+1, micrographs.size()));
+      current_shape_index = last_id+1;
     } else if (key == 'i') {
-      INVERT_IMAGES = !INVERT_IMAGES; 
+      INVERT_IMAGES = !INVERT_IMAGES;
     } else if (key == 'o') {
       ONION_SKINNING = !ONION_SKINNING; 
-
-      // Show / Hide the shapelist
-      /*
-    } else if (key == 's') {
-       cp5.show();
-       } else if (key == 'h') {
-       cp5.hide();
-       */
 
       // delete!
     } else if (key == DELETE || key == BACKSPACE) {
@@ -178,18 +172,36 @@ void keyPressed() {
   }
 }
 
+int hit_a_centroid(int frame) {
+  Shape s;
+  for (int i=0; i < shapes.size(); i++) {
+    s = ((Shape)shapes.get(i));
+    if (s.hit_centroid(frame)) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 void mouseClicked() {
   if (mode == "DRAW") {
     s = ((Shape)shapes.get(current_shape_index));
-    point_index = s.point_at(current_frame_number);
+    AnimatedPoint ap = s.point_at(current_frame_number);
+
+    int shape_index = hit_a_centroid(current_frame_number);
     // if the point index is a real point, set it to selected
-    if (point_index != -1) {
-      s.set_selected(point_index);
+    if (ap != null) {
+      s.clear_all_selected();
+      ap.selected = true;
+
+      // if we hit the centroid, change the selection to be this shape.
+    } else if (shape_index != -1) {
+      current_shape_index = shape_index;
+
       // otherwise clear the selection but add a new point
     } else {
-      if (s.selected_index != -1) {
-        s.selected_index = -1;
-      } else {
+      Boolean anything_selected = s.clear_all_selected();
+      if (!anything_selected) {
         s.add_point();
       }
     }
@@ -200,14 +212,12 @@ void mouseClicked() {
 
 void mouseDragged() {
   if (mode == "DRAW") {
-    if (point_index != -1) {
-      s = ((Shape)shapes.get(current_shape_index));    
-      s.move_point(current_frame_number, point_index);
-    }
+    s = ((Shape)shapes.get(current_shape_index));
+    s.move_points(current_frame_number);
   }
 }
 
 void mouseRelease() {
   s = ((Shape)shapes.get(current_shape_index));
-  s.selected_index = -1;
+  s.clear_all_selected();
 }

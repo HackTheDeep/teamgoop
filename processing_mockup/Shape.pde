@@ -16,17 +16,13 @@ class Shape {
   ArrayList<AnimatedPoint> points;
   int id;
   int num_micrographs;
-  int selected_index = -1;
+  boolean active_shape = true;
 
   Shape(int id, int num_micrographs) {
     points = new ArrayList();
     this.id = id;
     this.num_micrographs = num_micrographs;
     points = new ArrayList<AnimatedPoint>();
-  }
-
-  void set_selected(int index) {
-    selected_index = index;
   }
 
   int hittest(int current_frame_number) {
@@ -42,11 +38,36 @@ class Shape {
     return -1;
   }
 
-  int point_at(int current_frame_number) {
-    Integer result = hittest(current_frame_number);
-    if (result != -1) {
+  Boolean hit_centroid(int current_frame_number) {
+    if (points.size() < 4) {
+      return false;
     }
-    return result;
+    PVector c = find_centroid(current_frame_number);
+    if (mouseX > c.x - CENTROID_SIZE/2 && mouseX < c.x + CENTROID_SIZE/2 
+      && mouseY > c.y - CENTROID_SIZE/2 && mouseY < c.y + CENTROID_SIZE/2) {
+      return true;
+    }
+    return false;
+  }
+
+  Boolean clear_all_selected() {
+    Boolean anything_selected = false;
+    for (int i=0; i < points.size(); i++) {
+      AnimatedPoint ap = (AnimatedPoint)points.get(i);
+      if (ap.selected == true) {
+        anything_selected = true;
+      }
+      ap.selected = false;
+    }
+    return anything_selected;
+  }
+
+  AnimatedPoint point_at(int current_frame_number) {
+    int result = hittest(current_frame_number);
+    if (result == -1) {
+      return null;
+    }
+    return (AnimatedPoint)points.get(result);
   }
 
   void add_point() {
@@ -56,17 +77,21 @@ class Shape {
   }
 
   void delete_selected() {
-    if (selected_index == -1) {
-      return;
+    for (int i=0; i < points.size(); i++) {
+      AnimatedPoint ap = (AnimatedPoint)points.get(i);
+      if (ap.selected == true) {
+        points.remove(i);
+      }
     }
-    points.remove(selected_index);
-
-    selected_index = -1;
   }
 
-  void move_point(int current_frame, int point_index) {
-    AnimatedPoint ap = (AnimatedPoint)points.get(point_index);
-    ap.set_value_at_frame(new PVector(mouseX, mouseY), current_frame);
+  void move_points(int current_frame) {
+    for (int i=0; i < points.size(); i++) {
+      AnimatedPoint ap = (AnimatedPoint)points.get(i);
+      if (ap.selected == true) {
+        ap.set_value_at_frame(new PVector(mouseX, mouseY), current_frame);
+      }
+    }
   }
 
   ArrayList get_values_on_this_frame(int frame) {
@@ -82,34 +107,50 @@ class Shape {
     return values_on_this_frame;
   }
 
-  void draw(int opacity, int frame, boolean export) {
-    PVector p, prev, cp1, cp2;
-
+  PVector find_centroid(int frame) {
     sum_x = 0;
     sum_y = 0;
 
-   for (int i = 0; i < points.size(); i++) {
+    ArrayList values_on_this_frame = get_values_on_this_frame(frame);
+
+    sum_x += ((PVector)values_on_this_frame.get(0)).x;
+    sum_y += ((PVector)values_on_this_frame.get(0)).y;
+    for (int i=1; i < values_on_this_frame.size(); i++) {
+      sum_x += ((PVector)values_on_this_frame.get(i)).x;
+      sum_y += ((PVector)values_on_this_frame.get(i)).y;
+    }
+    return new PVector(sum_x /= values_on_this_frame.size(), sum_y /= values_on_this_frame.size());
+  }
+
+  void draw(int opacity, int frame, boolean export) {
+    PVector p, prev, cp1, cp2;
+
+    for (int i = 0; i < points.size(); i++) {
       AnimatedPoint ap = (AnimatedPoint)points.get(i);
       ap.draw_on_this_frame(frame);
-   }
+    }
 
     ArrayList values_on_this_frame = get_values_on_this_frame(frame);
 
     // If we have at least 3 points, draw curves
     if (values_on_this_frame.size() > 3) {
-      sum_x += ((PVector)values_on_this_frame.get(0)).x;
-      sum_y += ((PVector)values_on_this_frame.get(0)).y;
       for (int i=1; i < values_on_this_frame.size(); i++) {
         draw_bezier(values_on_this_frame, i-1, i, opacity, export);
-        sum_x += ((PVector)values_on_this_frame.get(i)).x;
-        sum_y += ((PVector)values_on_this_frame.get(i)).y;
       }
       draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity, export);
+    }
 
+    if (values_on_this_frame.size() > 3) {
+
+      PVector centroid = find_centroid(frame);
       // Draw the centroid!
       if (!export) {
-        fill(128, 0, 0, opacity);
-        ellipse(sum_x /= values_on_this_frame.size(), sum_y /= values_on_this_frame.size(), 20, 20);
+        if (current_shape_index == id) {
+          fill(0, 128, 0, opacity);
+        } else {
+          fill(128, 0, 0, opacity);
+        }
+        ellipse(centroid.x, centroid.y, CENTROID_SIZE, CENTROID_SIZE);
       }
     }
   }

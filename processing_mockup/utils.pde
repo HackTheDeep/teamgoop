@@ -15,7 +15,6 @@ ArrayList load_micrographs() {
   return my_micrographs;
 }
 
-
 void pppvector(String n, PVector p) {
   if (p == null) {
     println(n + ": NULL");
