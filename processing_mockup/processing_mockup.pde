@@ -13,27 +13,17 @@ import processing.svg.*;
 //    type
 //    frames it's on
 //    display!
-// Fix onion Skinning!
 
 // real vector export!
-
-// Global options
-// invert images
-// onion skinning
-
 
 // CBBS
 // UNDOS
 // MAKE 3D mode preview!
 // Load jpgs, not tiffs
 // Save and open a set of shapes / micrographs
-
-//import controlP5.*;
-//import static controlP5.ControlP5.*;
-//import java.util.*;
-//import java.util.Map.Entry;
-
-//ControlP5 cp5;
+// Gui controls for
+// invert images
+// onion skinning
 
 int WIDTH = 1280;
 int HEIGHT = 1024;
@@ -62,21 +52,10 @@ void setup() {
   // shapelist stuff
   f1 = createFont("Helvetica", 20);
   f2 = createFont("Helvetica", 12);
-  //cp5 = new ControlP5( this );
 
   // Make a default shape
   shapes.add(new Shape(0, micrographs.size()));
 
-  /*
-  // register 'menu' as the callback for clicks!
-   ShapeList shapelist = new ShapeList(cp5, "menu", 200, 400);
-   
-   shapelist.setPosition(40, 40);
-   // add some items to our shapelist
-   for (int i=0; i<5; i++) {
-   shapelist.addItem(makeItem("headline-"+i, "subline", "some copy lorem ipsum "));
-   }
-   */
 }
 
 void draw() {
