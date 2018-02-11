@@ -55,7 +55,7 @@ ArrayList shapes = new ArrayList();
 
 void setup() {
   frameRate(30);
-  size(640, 512, P3D);
+  size(640, 512);
   textSize(20);
   micrographs = load_micrographs();
 
