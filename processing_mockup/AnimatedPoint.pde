@@ -1,5 +1,5 @@
-final color SET_KEYFRAME = color(255, 255, 255);
-final color INTERPOLATED_KEYFRAME = color(128, 128, 128);
+final color SET_KEYFRAME = color(255, 200, 255);
+final color INTERPOLATED_KEYFRAME = color(100, 120, 100);
 
 class AnimatedPoint {
   ArrayList keyframes;
