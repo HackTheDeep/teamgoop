@@ -4,12 +4,9 @@ import processing.svg.*;
 // all images are the same width and height
 
 // TODOS
-// move selection to indivdual points
-// draw keyframes differently
-// Shape active on each frame
 // don't calculate tangents when drawing!
-// Editable shapes
-// add multiple shapes / shape list
+// more Editable shapes
+// add shape list
 // Shape inspector
 //    name
 //    color
