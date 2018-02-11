@@ -31,12 +31,12 @@ import processing.svg.*;
 // Load jpgs, not tiffs
 // Save and open a set of shapes / micrographs
 
-import controlP5.*;
-import static controlP5.ControlP5.*;
-import java.util.*;
-import java.util.Map.Entry;
+//import controlP5.*;
+//import static controlP5.ControlP5.*;
+//import java.util.*;
+//import java.util.Map.Entry;
 
-ControlP5 cp5;
+//ControlP5 cp5;
 
 int WIDTH = 1280;
 int HEIGHT = 1024;
@@ -64,7 +64,7 @@ void setup() {
   // shapelist stuff
   f1 = createFont("Helvetica", 20);
   f2 = createFont("Helvetica", 12);
-  cp5 = new ControlP5( this );
+  //cp5 = new ControlP5( this );
 
   // Make a default shape
   shapes.add(new Shape(0, micrographs.size()));
