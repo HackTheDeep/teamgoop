@@ -41,6 +41,8 @@ void draw() {
   fill(255, 0, 0);
   if (mode == "DRAW") {
     text(mode + " " + get_current_mg_shape().id, width-150, 30);
+  } else {
+    text(mode, width-150, 30);
   }
 }
 
