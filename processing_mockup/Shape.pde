@@ -7,19 +7,18 @@
 
 final int HANDLE_SIZE = 5;
 final color HANDLE_COLOR = color(0, 0, 255);
+
 float sum_x = 0;
 float sum_y = 0;
 
 class Shape {
   ArrayList<AnimatedPoint> points;
-  color mycolor;
   int id;
   int num_micrographs;
   int selected_index = -1;
 
   Shape(int id, int num_micrographs) {
     points = new ArrayList();
-    mycolor = color(0, 255, 0);
     this.id = id;
     this.num_micrographs = num_micrographs;
     points = new ArrayList<AnimatedPoint>();
@@ -92,23 +91,12 @@ class Shape {
     sum_x = 0;
     sum_y = 0;
 
-    ArrayList values_on_this_frame = get_values_on_this_frame(frame);
+   for (int i = 0; i < points.size(); i++) {
+      AnimatedPoint ap = (AnimatedPoint)points.get(i);
+      ap.draw_on_this_frame(frame);
+   }
 
-    // First, draw points
-    if (!export) {
-      stroke(0, opacity);
-      strokeWeight(1);
-      fill(mycolor, opacity);
-      for (int v = 0; v < values_on_this_frame.size(); v++) {
-        p = (PVector)values_on_this_frame.get(v);
-        if (v == selected_index) {
-          ellipse(p.x, p.y, 15, 15);
-        } else { 
-          ellipse(p.x, p.y, 10, 10);
-        }  
-        text(v, p.x+10, p.y);
-      }
-    }
+    ArrayList values_on_this_frame = get_values_on_this_frame(frame);
 
     // If we have at least 3 points, draw curves
     if (values_on_this_frame.size() > 3) {
