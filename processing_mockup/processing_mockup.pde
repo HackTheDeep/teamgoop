@@ -15,7 +15,7 @@ import processing.svg.*;
 
 int WIDTH = 1280;
 int HEIGHT = 1024;
-ArrayList micrographs = new ArrayList();
+ArrayList micrographs; //= new ArrayList();
 int current_frame_number = 0;
 MicroGraph current_mg, prev_mg, next_mg;
 Boolean VERBOSE = true;
@@ -25,11 +25,15 @@ void setup() {
   frameRate(30);
   size(640, 512, P3D);
   textSize(20);
-  micrographs = load_micrographs();
+}
+
+void set_micrographs(String[] files){
+  micrographs = load_micrographs(files);  
 }
 
 void draw() {
-  // draw frame w/ overlay
+  // draw frame w/ overlay  
+  if(!micrographs) return;
   current_mg = (MicroGraph)(micrographs.get(current_frame_number));
   current_mg.draw();
   println("Drawing frame: " + current_frame_number);

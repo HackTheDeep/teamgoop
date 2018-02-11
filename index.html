@@ -10,9 +10,11 @@
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-
+    <script src="loadImages.js"></script>
+    <button type="button" onclick="loadImages()">Load Images</button>
     <script src="processing.min.js"></script>
-    <canvas data-processing-sources="processing_mockup/processing_mockup.pde processing_mockup/utils.pde processing_mockup/Shape.pde processing_mockup/MicroGraph.pde"></canvas>
+    
+    <canvas data-processing-images="images" data-processing-sources="processing_mockup/Shape.pde processing_mockup/MicroGraph.pde processing_mockup/utils.pde processing_mockup/processing_mockup.pde"></canvas>
 
     <script>
       // You can also require other files to run in this process

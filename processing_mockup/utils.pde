@@ -1,18 +1,17 @@
-ArrayList load_micrographs() {
+ArrayList load_micrographs(var filenames) {
   ArrayList my_micrographs = new ArrayList();
   PImage img;
-  /// we'll have a look in the data folder
-  java.io.File folder = new java.io.File(dataPath(""));
-  String[] filenames = folder.list();
   // display the filenames
+ if(!filenames) return;
   for (int i = 0; i < filenames.length; i++) {
     String path = filenames[i];
     if (path.endsWith(".jpeg")) {
       println("loading: " + path);
-      my_micrographs.add(new MicroGraph(path));
+      MicroGraph micro = new MicroGraph(path);
+      my_micrographs.add(micro);
     }
   }
-  return my_micrographs;
+ return my_micrographs;
 }
 
 
