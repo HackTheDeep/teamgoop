@@ -4,14 +4,22 @@ import processing.svg.*;
 // all images are the same width and height
 
 // TODOS
-// multiple shapes
-// extrusion?
-// Export curves!
+// Editable shapes
+// Shape inspector
+//    name
+//    color
+//    type
+//    frames it's on
+//    display!
+// shape list
+// Shape active on each frame
+// Export curves as SVG --> Blender
 
 // CBBS
 // UNDOS
 // MAKE 3D mode preview!
 // Load jpgs, not tiffs
+// Save and open a set of shapes / micrographs
 
 int WIDTH = 1280;
 int HEIGHT = 1024;
