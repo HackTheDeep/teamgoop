@@ -31,7 +31,7 @@ String mode = "COMMAND";
 
 void setup() {
   frameRate(30);
-  size(1250, 680, P3D);
+  size(640, 512);
   textSize(20);
 }
 
