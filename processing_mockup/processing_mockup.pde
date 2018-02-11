@@ -8,8 +8,8 @@ import processing.svg.*;
 // extrusion?
 // Export curves!
 
-
 // CBBS
+// UNDOS
 // MAKE 3D mode preview!
 // Load jpgs, not tiffs
 
@@ -32,26 +32,17 @@ void draw() {
   // draw frame w/ overlay
   current_mg = (MicroGraph)(micrographs.get(current_frame_number));
   current_mg.draw();
-  
   println("Drawing frame: " + current_frame_number);
+
   // Onion Skining!
-  int prev_frame_index = current_frame_number - 1;
-  if (prev_frame_index > 0){
-      prev_mg = (MicroGraph)(micrographs.get(prev_frame_index));
-      prev_mg.draw_shapes(128);
-      println("Also drawing frame: " + prev_frame_index);
-  }
-  int next_frame_index = current_frame_number + 1;
-  if (next_frame_index < micrographs.size()){
-      next_mg = (MicroGraph)(micrographs.get(next_frame_index));
-      next_mg.draw_shapes(128);
-      println("Also drawing frame: " + next_frame_index);
-  }
+  onion_skinning();
 
   // draw mode
   fill(255, 0, 0);
   if (mode == "DRAW") {
     text(mode + " " + get_current_mg_shape().id, width-150, 30);
+  } else {
+    text(mode, width-150, 30);
   }
 }
 
@@ -82,4 +73,17 @@ void keyPressed() {
 
 void mouseClicked() {
   current_mg.add_point();
+}
+
+void onion_skinning() {
+  int prev_frame_index = current_frame_number - 1;
+  if (prev_frame_index >= 0) {
+    prev_mg = (MicroGraph)(micrographs.get(prev_frame_index));
+    prev_mg.draw_shapes(128);
+  }
+  int next_frame_index = current_frame_number + 1;
+  if (next_frame_index < micrographs.size()) {
+    next_mg = (MicroGraph)(micrographs.get(next_frame_index));
+    next_mg.draw_shapes(128);
+  }
 }
