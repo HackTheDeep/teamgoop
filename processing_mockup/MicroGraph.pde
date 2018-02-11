@@ -16,7 +16,7 @@ class MicroGraph {
   void draw() {
     // draw image
     image(img, 0, 0, img.width/2, img.height/2);
-    filter(INVERT); 
+    if (INVERT_IMAGES) filter(INVERT); 
     draw_trackers();
     if (VERBOSE) {
       fill(255, 0, 0);

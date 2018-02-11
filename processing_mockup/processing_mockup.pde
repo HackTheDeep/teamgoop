@@ -45,6 +45,7 @@ int current_frame_number = 0;
 MicroGraph current_mg, prev_mg, next_mg;
 Boolean VERBOSE = true;
 Boolean ONION_SKINNING = true;
+Boolean INVERT_IMAGES = false;
 String mode = "COMMAND";
 PFont f1, f2;
 int current_shape_index = 0;
@@ -151,6 +152,10 @@ void keyPressed() {
       mode = "ALIGN";
     } else if (key == 'c') {
       mode = "COMMAND";
+    } else if (key == 'i') {
+      INVERT_IMAGES = !INVERT_IMAGES; 
+    } else if (key == 'o') {
+      ONION_SKINNING = !ONION_SKINNING; 
 
       // Show / Hide the shapelist
       /*
