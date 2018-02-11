@@ -7,6 +7,7 @@
 
 final int HANDLE_SIZE = 5;
 final color HANDLE_COLOR = color(0, 0, 255);
+final int CENTROID_SIZE = 20;
 
 float sum_x = 0;
 float sum_y = 0;

@@ -84,7 +84,7 @@ class AnimatedPoint {
     }
     PVector pos = calculated_position(frame);
     if (selected) {
-      ellipse(pos.x, pos.y, 20, 20);
+      ellipse(pos.x, pos.y, 15, 15);
     } else {
       ellipse(pos.x, pos.y, 10, 10);
     }
