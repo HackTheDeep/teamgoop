@@ -122,6 +122,25 @@ class Shape {
     return new PVector(sum_x /= values_on_this_frame.size(), sum_y /= values_on_this_frame.size());
   }
 
+  void draw_3d() {
+    for (int frame = 0; frame < micrographs.size(); frame++) {
+
+      ArrayList values_on_this_frame = new ArrayList();
+      for (int i = 0; i < points.size(); i++) {
+        AnimatedPoint ap = (AnimatedPoint)points.get(i);
+        PVector p = ap.calculated_position(frame);
+        values_on_this_frame.add(p);
+      }
+
+      // If we have at least 3 points, draw curves
+      for (int i=1; i < values_on_this_frame.size(); i++) {
+        draw_bezier(values_on_this_frame, i-1, i, 255, frame);
+      }
+      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, 255, frame);
+    }
+  }
+
+
   void draw(int opacity, int frame) {
     PVector p, prev, cp1, cp2;
 
@@ -135,13 +154,12 @@ class Shape {
     // If we have at least 3 points, draw curves
     if (values_on_this_frame.size() > 3) {
       for (int i=1; i < values_on_this_frame.size(); i++) {
-        draw_bezier(values_on_this_frame, i-1, i, opacity);
+        draw_bezier(values_on_this_frame, i-1, i, opacity, frame);
       }
-      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity);
+      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity, frame);
     }
 
     if (values_on_this_frame.size() > 3) {
-
       PVector centroid = find_centroid(frame);
       // Draw the centroid!
       if (!export_) {
@@ -165,7 +183,7 @@ class Shape {
     return (index + 1) % size;
   }
 
-  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity) {
+  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity, int frame) {
 
     // find the previous and next points...
     int p0_index = safe_prev_index(p1_index, this_frame_points.size());
@@ -191,6 +209,13 @@ class Shape {
       noFill();
       stroke(0);
       bezier(p1.x, p1.y, cp1.x, cp1.y, cp2.x, cp2.y, p2.x, p2.y);
+    } else if (mode == "THREED") {
+      float t = frame / float(micrographs.size());
+      stroke(lerpColor(64, 192, t));
+      //stroke(255);
+      strokeWeight(1);
+      float z = frame * 10;
+      bezier(p1.x, p1.y, z, cp1.x, cp1.y, z, cp2.x, cp2.y, z, p2.x, p2.y, z);
     } else { 
       noFill();
       stroke(255, opacity);

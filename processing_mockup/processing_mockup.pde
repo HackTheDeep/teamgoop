@@ -1,4 +1,7 @@
 import processing.svg.*;
+import peasy.*;
+
+PeasyCam cam;
 
 // assertions:
 // all images are the same width and height
@@ -56,64 +59,83 @@ void setup() {
   // Make a default shape
   shapes.add(new Shape(0, micrographs.size()));
 
+  cam = new PeasyCam(this, 400);
+  cam.setActive(false);
 }
 
 void draw() {
-  // draw current micrograph
-  current_mg = (MicroGraph)(micrographs.get(current_frame_number));
-  current_mg.draw();
+  if (mode != "THREED") {
+    cam.setActive(false);
+    cam.beginHUD();
+    // draw current micrograph
+    current_mg = (MicroGraph)(micrographs.get(current_frame_number));
+    current_mg.draw();
 
-  // If export_ mode is selected -- blast out the frames!
-  if (export_) {
-    Boolean pre_onion_skin = ONION_SKINNING;
-    ONION_SKINNING = false;
-    int pre_export_frame = current_frame_number;
-    for (int export_frame = 0; export_frame < micrographs.size(); export_frame++) {
-      export_filename = "output/output_"+export_frame+".svg";
-      current_frame_number = export_frame;
-      beginRaw(SVG, export_filename);
+    // If export_ mode is selected -- blast out the frames!
+    if (export_) {
+      Boolean pre_onion_skin = ONION_SKINNING;
+      ONION_SKINNING = false;
+      int pre_export_frame = current_frame_number;
+      for (int export_frame = 0; export_frame < micrographs.size(); export_frame++) {
+        export_filename = "output/output_"+export_frame+".svg";
+        current_frame_number = export_frame;
+        beginRaw(SVG, export_filename);
+        for (int i=0; i < shapes.size(); i++) {
+          s = (Shape)shapes.get(i);
+          s.draw(255, current_frame_number);
+        }
+        endRaw();
+        current_frame_number = pre_export_frame;
+        ONION_SKINNING = pre_onion_skin; 
+        println("exported " + export_filename + "!");
+      }
+      // disable export_ mode so we don't loop!
+      export_ = false;
+    }
+
+    // draw all shapes w/ optional onion skinning
+    if (mode == "COMMAND" || mode == "DRAW") {
+
+      // Draw all shapes
       for (int i=0; i < shapes.size(); i++) {
         s = (Shape)shapes.get(i);
         s.draw(255, current_frame_number);
+
+        // Onion Skinning
+        if (ONION_SKINNING) {
+          int prev_frame_index = current_frame_number - 1;
+          if (prev_frame_index >= 0) {
+            s.draw(64, prev_frame_index);
+          }
+
+          int next_frame_index = current_frame_number + 1;
+          if (next_frame_index < micrographs.size()) {
+            s.draw(64, next_frame_index);
+          }
+        }
       }
-      endRaw();
-      current_frame_number = pre_export_frame;
-      ONION_SKINNING = pre_onion_skin; 
-      println("exported " + export_filename + "!");
     }
-    // disable export_ mode so we don't loop!
-    export_ = false;
-  }
 
-  // draw all shapes w/ optional onion skinning
-  if (mode == "COMMAND" || mode == "DRAW") {
+    // display mode
+    fill(255, 0, 0);
+    if (mode == "DRAW") {
+      text(mode + " " + ((Shape)shapes.get(current_shape_index)).id, width-150, 30);
+    } else {
+      text(mode, width-150, 30);
+    }
 
-    // Draw all shapes
+    cam.endHUD();
+  } else {
+    background(0);
+    pushMatrix();
+    translate(-width/2,0);
+    cam.setActive(true);
+    fill(255, 255, 255);
     for (int i=0; i < shapes.size(); i++) {
       s = (Shape)shapes.get(i);
-      s.draw(255, current_frame_number);
-
-      // Onion Skinning
-      if (ONION_SKINNING) {
-        int prev_frame_index = current_frame_number - 1;
-        if (prev_frame_index >= 0) {
-          s.draw(64, prev_frame_index);
-        }
-
-        int next_frame_index = current_frame_number + 1;
-        if (next_frame_index < micrographs.size()) {
-          s.draw(64, next_frame_index);
-        }
-      }
+      s.draw_3d();
     }
-  }
-
-  // display mode
-  fill(255, 0, 0);
-  if (mode == "DRAW") {
-    text(mode + " " + ((Shape)shapes.get(current_shape_index)).id, width-150, 30);
-  } else {
-    text(mode, width-150, 30);
+    popMatrix();
   }
 }
 
@@ -127,12 +149,15 @@ void keyPressed() {
     } else if (keyCode == DOWN || keyCode == LEFT) {
       current_frame_number = max(current_frame_number - 1, 0);
     }
+
     // Regular keys
   } else { 
     if (key == 'd') {
       mode = "DRAW";
     } else if (key == 'a') {
       mode = "ALIGN";
+    } else if (key == 'x') {
+      mode = "THREED";      
     } else if (key == 'c') {
       int last_id = ((Shape)shapes.get(shapes.size()-1)).id;
       shapes.add(new Shape(last_id+1, micrographs.size()));
