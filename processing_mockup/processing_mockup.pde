@@ -92,7 +92,7 @@ void draw() {
       beginRaw(SVG, export_filename);
       for (int i=0; i < shapes.size(); i++) {
         s = (Shape)shapes.get(i);
-        s.draw(255, current_frame_number);
+        s.draw(255, current_frame_number, export);
       }
       endRaw();
       println("Exported " + export_filename);
@@ -107,18 +107,18 @@ void draw() {
     // Draw all shapes
     for (int i=0; i < shapes.size(); i++) {
       s = (Shape)shapes.get(i);
-      s.draw(255, current_frame_number);
+      s.draw(255, current_frame_number, export);
 
       // Onion Skinning
       if (ONION_SKINNING) {
         int prev_frame_index = current_frame_number - 1;
         if (prev_frame_index >= 0) {
-          s.draw(64, prev_frame_index);
+          s.draw(64, prev_frame_index, export);
         }
 
         int next_frame_index = current_frame_number + 1;
         if (next_frame_index < micrographs.size()) {
-          s.draw(64, next_frame_index);
+          s.draw(64, next_frame_index, export);
         }
       }
     }

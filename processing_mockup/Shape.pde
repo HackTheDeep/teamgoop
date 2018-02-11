@@ -86,7 +86,7 @@ class Shape {
     return values_on_this_frame;
   }
 
-  void draw(int opacity, int frame) {
+  void draw(int opacity, int frame, boolean export) {
     PVector p, prev, cp1, cp2;
 
     sum_x = 0;
@@ -115,11 +115,11 @@ class Shape {
       sum_x += ((PVector)values_on_this_frame.get(0)).x;
       sum_y += ((PVector)values_on_this_frame.get(0)).y;
       for (int i=1; i < values_on_this_frame.size(); i++) {
-        draw_bezier(values_on_this_frame, i-1, i, opacity);
+        draw_bezier(values_on_this_frame, i-1, i, opacity, export);
         sum_x += ((PVector)values_on_this_frame.get(i)).x;
         sum_y += ((PVector)values_on_this_frame.get(i)).y;
       }
-      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity);
+      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity, export);
 
       // Draw the centroid!
       if (!export) {
@@ -139,7 +139,7 @@ class Shape {
     return (index + 1) % size;
   }
 
-  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity) {
+  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity, boolean export) {
 
     // find the previous and next points...
     int p0_index = safe_prev_index(p1_index, this_frame_points.size());
