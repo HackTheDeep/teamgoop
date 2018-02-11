@@ -11,6 +11,13 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.load-images {
+  z-index: 1000;
+  font-size: 2rem;
+  position: absolute;
+  padding: 2px;
+}
+
 .canvas-wrapper {
   position: absolute;
   width: 100%;
