@@ -144,7 +144,7 @@ class Shape {
 
       PVector centroid = find_centroid(frame);
       // Draw the centroid!
-      if (!export) {
+      if (!export_) {
         if (current_shape_index == id) {
           fill(0, 128, 0, opacity);
         } else {
@@ -187,7 +187,7 @@ class Shape {
     PVector cp1 = new PVector(p1.x + handle_length*p1_tan.x, p1.y + handle_length*p1_tan.y);
     PVector cp2 = new PVector(p2.x - handle_length*p2_tan.x, p2.y - handle_length*p2_tan.y);
 
-    if (export) {
+    if (export_) {
       noFill();
       stroke(0);
       bezier(p1.x, p1.y, cp1.x, cp1.y, cp2.x, cp2.y, p2.x, p2.y);

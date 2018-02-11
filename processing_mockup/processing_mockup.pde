@@ -37,7 +37,7 @@ String mode = "COMMAND";
 PFont f1, f2;
 int current_shape_index = 0;
 Shape s;
-Boolean export = false;
+Boolean export_ = false;
 String export_filename;
 int point_index;
 
@@ -63,8 +63,8 @@ void draw() {
   current_mg = (MicroGraph)(micrographs.get(current_frame_number));
   current_mg.draw();
 
-  // If export mode is selected -- blast out the frames!
-  if (export) {
+  // If export_ mode is selected -- blast out the frames!
+  if (export_) {
     Boolean pre_onion_skin = ONION_SKINNING;
     ONION_SKINNING = false;
     int pre_export_frame = current_frame_number;
@@ -79,10 +79,10 @@ void draw() {
       endRaw();
       current_frame_number = pre_export_frame;
       ONION_SKINNING = pre_onion_skin; 
-      println("Exported " + export_filename + "!");
+      println("exported " + export_filename + "!");
     }
-    // disable export mode so we don't loop!
-    export = false;
+    // disable export_ mode so we don't loop!
+    export_ = false;
   }
 
   // draw all shapes w/ optional onion skinning
@@ -147,9 +147,9 @@ void keyPressed() {
       s = ((Shape)shapes.get(current_shape_index));
       s.delete_selected();
 
-      // export!
+      // export_!
     } else if (key == 'e') {
-      export = true;
+      export_ = true;
     }
   }
 }

@@ -75,7 +75,7 @@ class AnimatedPoint {
   }
 
   void draw_on_this_frame(int frame) {
-    if (export) {
+    if (export_) {
       return;
     }
     stroke(0);
