@@ -153,10 +153,12 @@ void keyPressed() {
       mode = "COMMAND";
 
       // Show / Hide the shapelist
+      /*
     } else if (key == 's') {
-      cp5.show();
-    } else if (key == 'h') {
-      cp5.hide();
+       cp5.show();
+       } else if (key == 'h') {
+       cp5.hide();
+       */
 
       // delete!
     } else if (key == DELETE || key == BACKSPACE) {
