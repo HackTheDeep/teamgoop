@@ -11,7 +11,7 @@ float sum_x = 0;
 float sum_y = 0;
 
 class Shape {
-  List<AnimatedPoint> points;
+  ArrayList<AnimatedPoint> points;
   color mycolor;
   int id;
   int num_micrographs;
