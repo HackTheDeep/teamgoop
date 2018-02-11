@@ -29,18 +29,15 @@ class Shape {
   }
 
   int hittest(int current_frame_number) {
-    println("hittest!");
     PVector p;
     AnimatedPoint animatedpoint;
     for (int i=0; i < points.size(); i++) {
       animatedpoint = (AnimatedPoint)points.get(i);
       p = animatedpoint.calculated_position(current_frame_number);
       if (mouseX > p.x - 5 && mouseX < p.x + 5 && mouseY > p.y - 5 && mouseY < p.y + 5) {
-        println("hit worked!");
         return i;
       }
     }
-    println("hit failed!");
     return -1;
   }
 
@@ -76,7 +73,6 @@ class Shape {
     PVector p;
 
     for (int i = 0; i < points.size(); i++) {
-      println("Fframe: " + frame);
       AnimatedPoint ap = (AnimatedPoint)points.get(i);
       p = ap.calculated_position(frame);
       values_on_this_frame.add(p);
