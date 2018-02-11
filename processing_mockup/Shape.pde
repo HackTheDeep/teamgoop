@@ -122,7 +122,7 @@ class Shape {
     return new PVector(sum_x /= values_on_this_frame.size(), sum_y /= values_on_this_frame.size());
   }
 
-  void draw(int opacity, int frame, boolean export) {
+  void draw(int opacity, int frame) {
     PVector p, prev, cp1, cp2;
 
     for (int i = 0; i < points.size(); i++) {
@@ -135,9 +135,9 @@ class Shape {
     // If we have at least 3 points, draw curves
     if (values_on_this_frame.size() > 3) {
       for (int i=1; i < values_on_this_frame.size(); i++) {
-        draw_bezier(values_on_this_frame, i-1, i, opacity, export);
+        draw_bezier(values_on_this_frame, i-1, i, opacity);
       }
-      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity, export);
+      draw_bezier(values_on_this_frame, values_on_this_frame.size() - 1, 0, opacity);
     }
 
     if (values_on_this_frame.size() > 3) {
@@ -165,7 +165,7 @@ class Shape {
     return (index + 1) % size;
   }
 
-  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity, boolean export) {
+  void draw_bezier(ArrayList this_frame_points, int p1_index, int p2_index, int opacity) {
 
     // find the previous and next points...
     int p0_index = safe_prev_index(p1_index, this_frame_points.size());

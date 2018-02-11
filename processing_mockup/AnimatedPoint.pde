@@ -75,6 +75,9 @@ class AnimatedPoint {
   }
 
   void draw_on_this_frame(int frame) {
+    if (export) {
+      return;
+    }
     stroke(0);
     strokeWeight(1);
     if (keyframes.get(frame) != null) {

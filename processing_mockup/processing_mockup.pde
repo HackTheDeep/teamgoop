@@ -58,7 +58,7 @@ ArrayList shapes = new ArrayList();
 
 void setup() {
   frameRate(30);
-  size(640, 512);
+  size(640, 512, P3D);
   textSize(20);
   micrographs = load_micrographs();
 
@@ -87,19 +87,26 @@ void draw() {
   current_mg = (MicroGraph)(micrographs.get(current_frame_number));
   current_mg.draw();
 
+  // If export mode is selected -- blast out the frames!
   if (export) {
+    Boolean pre_onion_skin = ONION_SKINNING;
+    ONION_SKINNING = false;
+    int pre_export_frame = current_frame_number;
     for (int export_frame = 0; export_frame < micrographs.size(); export_frame++) {
-      export_filename = "export/output_"+export_frame+".svg";
+      export_filename = "output/output_"+export_frame+".svg";
+      current_frame_number = export_frame;
       beginRaw(SVG, export_filename);
       for (int i=0; i < shapes.size(); i++) {
         s = (Shape)shapes.get(i);
-        s.draw(255, current_frame_number, export);
+        s.draw(255, current_frame_number);
       }
       endRaw();
-      println("Exported " + export_filename);
+      current_frame_number = pre_export_frame;
+      ONION_SKINNING = pre_onion_skin; 
+      println("Exported " + export_filename + "!");
     }
+    // disable export mode so we don't loop!
     export = false;
-    ONION_SKINNING = true;
   }
 
   // draw all shapes w/ optional onion skinning
@@ -108,18 +115,18 @@ void draw() {
     // Draw all shapes
     for (int i=0; i < shapes.size(); i++) {
       s = (Shape)shapes.get(i);
-      s.draw(255, current_frame_number, export);
+      s.draw(255, current_frame_number);
 
       // Onion Skinning
       if (ONION_SKINNING) {
         int prev_frame_index = current_frame_number - 1;
         if (prev_frame_index >= 0) {
-          s.draw(64, prev_frame_index, export);
+          s.draw(64, prev_frame_index);
         }
 
         int next_frame_index = current_frame_number + 1;
         if (next_frame_index < micrographs.size()) {
-          s.draw(64, next_frame_index, export);
+          s.draw(64, next_frame_index);
         }
       }
     }
@@ -167,7 +174,6 @@ void keyPressed() {
       // export!
     } else if (key == 'e') {
       export = true;
-      ONION_SKINNING = false;
     }
   }
 }
