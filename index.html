@@ -2,18 +2,42 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Iron Out the Kinks</title>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css" media="screen" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
     <script src="processing.min.js"></script>
-    <canvas data-processing-sources="processing_mockup/processing_mockup.pde processing_mockup/utils.pde processing_mockup/Shape.pde processing_mockup/MicroGraph.pde"></canvas>
-
+    <div class='wrapper'>
+      <div class='canvas-wrapper'>
+        <canvas class='main_canvas' data-processing-sources="processing_mockup/processing_mockup.pde processing_mockup/utils.pde processing_mockup/Shape.pde processing_mockup/MicroGraph.pde"></canvas>
+      </div>
+        <div class='sidebar'>
+          <div class='sidebar-image-name-container'>
+            <span>Image_Name.tiff</span>
+          </div>
+          <div class='sidebar-tabs'>
+            <div class='sidebar-tab adjustments-tab'>Adjustments</div>
+            <div class='sidebar-tab annotations-tab'>Annotations</div>
+          </div>
+          <div class='adjustment-options'>
+            <div class='sidebar-header-box sidebar-align-header'>
+              Align
+            </div>
+            <div class='sidebar-align-options'>
+            </div>
+            <div class='sidebar-header-box sidebar-adjust-header'>
+              Adjust
+            </div>
+            <div class='sidebar-adjust-options'>
+            </div>
+          </div>
+          <div class='annotation-options'>
+            TODO
+          </div>
+        </div>
+      <div class='bottom-bar'></div>
+    </div>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
