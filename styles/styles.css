@@ -25,6 +25,11 @@ body {
   background-color: lightgray;
 }
 
+.main-canvas {
+  margin-top: 5rem;
+  margin-left: 15rem;
+}
+
 .sidebar {
   position: absolute;
   background-color: rgba(62, 65, 75, 0.9);
