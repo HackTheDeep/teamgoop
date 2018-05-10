@@ -1,25 +1,16 @@
 import React from 'react'
 import { Button } from 'react'
 import PropTypes from 'prop-types'
-import { remote } from 'electron'
-import { readdir } from 'fs'
-import get from 'lodash/get'
+import loadImages from '../../lib/loadImages'
 
 class ImageLoader extends React.Component {
   onClick(event) {
-    const directory = get(remote.dialog.showOpenDialog({properties: ['openDirectory']}), '0')
-    if (!directory) {
-      return
-    }
-    const images = []
-    readdir(directory, function(err, items) {
-      for (let item of items) {
-        images.push({
-          path: directory + "/" + item
-        })
-      }
+    this.props.onLoadStart()
+    loadImages().then((images) => {
       this.props.onImagesLoaded(images)
-    }.bind(this))
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   render() {
@@ -35,7 +26,8 @@ class ImageLoader extends React.Component {
 }
 
 ImageLoader.propTypes = {
-  onImagesLoaded: PropTypes.func.isRequired
+  onImagesLoaded: PropTypes.func.isRequired,
+  onLoadStart: PropTypes.func.isRequired
 }
 
 export default ImageLoader
