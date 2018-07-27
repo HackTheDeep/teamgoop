@@ -8,15 +8,17 @@ class PreviewImage extends React.Component {
   }
 
   render() {
-    const { path, isSelected } = this.props
+    const { path, isSelected, tiffData } = this.props
     const classNames = ClassNames('preview-image', {'preview-image-selected': isSelected})
     return (
-      <div>{path}</div>
-      /*<img 
-        className={classNames} 
-        src={path}
-        onClick={this.onClick.bind(this)}
-      />*/
+      <div>
+        <img
+          width='100px'
+          className={classNames} 
+          src={tiffData}
+          onClick={this.onClick.bind(this)}
+        />
+      </div>
     )
   }
 }

@@ -6,26 +6,34 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      images: []
+      images: [],
+      loading: false
     }
+  }
+
+  onLoadStart() {
+    this.setState({
+      loading: true
+    })
   }
 
   onImagesLoaded(images) {
     this.setState({
-      images: images
+      images: images,
+      loading: false
     })
-    console.log(images)
   }
   
   render() {
-    const { images } = this.state
+    const { images, loading } = this.state
     return (
       <div>
         <h1>Welcome to Goop!!!</h1>
         <ImageLoader
           onImagesLoaded={this.onImagesLoaded.bind(this)}
+          onLoadStart={this.onLoadStart.bind(this)}
         />
-        <PreviewBar images={images}/>
+        <PreviewBar loading={loading} images={images}/>
       </div>
     )
   }

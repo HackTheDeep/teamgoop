@@ -17,10 +17,11 @@ class PreviewBar extends React.Component {
   }
 
   render() {
-    const { images } = this.props
+    const { images, loading } = this.props
     const { selected } = this.state
     return (
       <div className='preview-bar'>
+        {loading && <span>LOADING... PLEASE WAIT A FEW SECONDS...</span>}
         {images.map((image, index) => {
           return (
             <PreviewImage
@@ -28,6 +29,7 @@ class PreviewBar extends React.Component {
               index={index}
               isSelected={index === selected}
               path={image.path}
+              tiffData={image.tiffData}
               onImageClick={this.onImageClick.bind(this)}
             />
           )
