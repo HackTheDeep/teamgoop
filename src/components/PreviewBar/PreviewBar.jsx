@@ -29,7 +29,6 @@ class PreviewBar extends React.Component {
               index={index}
               isSelected={index === selected}
               path={image.path}
-              tiffData={image.tiffData}
               onImageClick={this.onImageClick.bind(this)}
             />
           )
