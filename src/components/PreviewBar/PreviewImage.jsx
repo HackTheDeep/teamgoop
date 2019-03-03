@@ -15,7 +15,7 @@ class PreviewImage extends React.Component {
       <div>
         <img
           width='100px'
-          className={classNames} 
+          className={classNames}
           src={path}
           onClick={this.onClick.bind(this)}
           onLoad={UTIF.replaceIMG()}
