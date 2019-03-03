@@ -3,6 +3,7 @@ import { readdir, readFile } from 'fs'
 import get from 'lodash/get'
 import Promise from "bluebird";
 import UTIF from 'utif'
+import Image from 'classes/image'
 
 const readdirPromise = Promise.promisify(readdir)
 const readFilePromise = Promise.promisify(readFile)
@@ -19,9 +20,7 @@ function loadImages() {
       for (let item of items) {
         const path = directory + "/" + item
         images.push(readFilePromise(path).then(data => {
-          return {
-            path
-          }
+          return new Image(path)
         }))
       }
       return Promise.all(images)
