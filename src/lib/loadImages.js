@@ -2,8 +2,7 @@ import { remote } from 'electron'
 import { readdir, readFile } from 'fs'
 import get from 'lodash/get'
 import Promise from "bluebird";
-import UTIF from 'utif'
-import Image from 'classes/image'
+import Image from './classes/image';
 
 const readdirPromise = Promise.promisify(readdir)
 const readFilePromise = Promise.promisify(readFile)
