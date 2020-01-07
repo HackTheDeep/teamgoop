@@ -18,10 +18,10 @@ To see our vision of what a fully-featured app might look like, check out the sk
 
 
 ## History
-This application originally began it's life as an entry for the ['Iron out the kinks'](https://github.com/amnh/HackTheDeep/wiki/Iron-Out-the-Kinks) challenge at the 2018 AMNH "Hack the Deep" hackathon.  There were a few earlier iteartions that can still be accessed on other branches of this repo.
+This application originally began it's life as an entry for the ['Iron out the kinks'](https://github.com/amnh/HackTheDeep/wiki/Iron-Out-the-Kinks) challenge at the 2018 AMNH "Hack the Deep" hackathon.  There were a few earlier iterations that can still be accessed on other branches of this repo.
 
 ### Processing prototype
-All of the [Processing](https://processing.org/) .pde files are located in the `processing_mockup` directory and can be run independantly of any of the Node/Electron stuff. There is also a set of sample images in the `processing_mockup/data` directory, which can be used to test the app.
+All of the [Processing](https://processing.org/) .pde files are located in the `processing_mockup` directory and can be run independently of any of the Node/Electron stuff. There is also a set of sample images in the `processing_mockup/data` directory, which can be used to test the app.
 
 Check out the "3dmode" branch to see a version that includes a 3D view of the curves. At the moment, this branch is incompatible with the Electron app.
 
